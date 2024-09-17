@@ -16,6 +16,7 @@ export default function Input({ textInputFocus, inputHandler, visibility }) {
     <View style={styles.container}>
       
       <TextInput
+        style={styles.input}
         autoFocus={textInputFocus}
         autoCorrect={true}
         placeholder="Type something"
@@ -27,7 +28,6 @@ export default function Input({ textInputFocus, inputHandler, visibility }) {
         }}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
-        style={{borderBottomColor: 'gray', borderBottomWidth: 2}}
       />
         {focus && count > 0 && (
           <Text>{count}</Text>
@@ -44,8 +44,13 @@ export default function Input({ textInputFocus, inputHandler, visibility }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  input: {
+    borderColor: 'gray',
+    borderWidth: 2,
+    padding: 10,
+  }
 });

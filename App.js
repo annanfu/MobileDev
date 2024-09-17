@@ -9,10 +9,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Header name={appName}>
-        <Text>My app is great!</Text>
-        <Text>It's the best app ever!</Text>
-      </Header>
+      <Header name={appName} />
       <Input />
     </View>
   );

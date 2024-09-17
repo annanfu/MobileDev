@@ -3,8 +3,12 @@ import React, {useState} from 'react'
 
 export default function Input() {
   const [text, setText] = useState('');
+  const [focus, setFocus] = useState(false);
+  const [count, setCount] = useState(0);
   return (
+    <View>
       <TextInput
+        autoFocus={focus}
         autoCorrect={true}
         placeholder="Type something"
         keyboardType="default"
@@ -12,9 +16,19 @@ export default function Input() {
         onChangeText={(changeText) => {
         console.log(changeText);
         setText(changeText);
+        setCount(changeText.length);
         }}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
         style={{borderBottomColor: 'gray', borderBottomWidth: 2}}
       />
+        {focus && count > 0 && (
+          <Text>{count}</Text>
+        )}
+        {!focus && count > 0 && (
+          <Text>{count >= 3 ? "Thank you" : "Please type more than 3 characters"}</Text>
+        )}
+    </View>
   )
 }
 

@@ -1,7 +1,7 @@
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Button, Modal, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, {useState} from 'react'
 
-export default function Input({ textInputFocus, inputHandler }) {
+export default function Input({ textInputFocus, inputHandler, visibility }) {
   const [text, setText] = useState('');
   const [focus, setFocus] = useState(false);
   const [count, setCount] = useState(0);
@@ -12,7 +12,8 @@ export default function Input({ textInputFocus, inputHandler }) {
   }
 
   return (
-    <View>
+    <Modal animationType='slide' visible={visibility}>
+    <View style={styles.container}>
       
       <TextInput
         autoFocus={textInputFocus}
@@ -36,7 +37,15 @@ export default function Input({ textInputFocus, inputHandler }) {
         )}
         <Button title="Confirm" onPress={handleConfirm} />
     </View>
+    </Modal>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

@@ -1,22 +1,22 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React, {useState} from 'react'
 
-export default function Input() {
+export default function Input({ textInputFocus }) {
   const [text, setText] = useState('');
   const [focus, setFocus] = useState(false);
   const [count, setCount] = useState(0);
   return (
     <View>
       <TextInput
-        autoFocus={focus}
+        autoFocus={textInputFocus}
         autoCorrect={true}
         placeholder="Type something"
         keyboardType="default"
         value={text}
         onChangeText={(changeText) => {
-        console.log(changeText);
-        setText(changeText);
-        setCount(changeText.length);
+          console.log(changeText);
+          setText(changeText);
+          setCount(changeText.length);
         }}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}

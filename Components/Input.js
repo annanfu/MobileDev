@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, {useState} from 'react'
 
 export default function Input({ textInputFocus }) {
@@ -7,6 +7,7 @@ export default function Input({ textInputFocus }) {
   const [count, setCount] = useState(0);
   return (
     <View>
+      
       <TextInput
         autoFocus={textInputFocus}
         autoCorrect={true}
@@ -14,7 +15,6 @@ export default function Input({ textInputFocus }) {
         keyboardType="default"
         value={text}
         onChangeText={(changeText) => {
-          console.log(changeText);
           setText(changeText);
           setCount(changeText.length);
         }}
@@ -28,6 +28,7 @@ export default function Input({ textInputFocus }) {
         {!focus && count > 0 && (
           <Text>{count >= 3 ? "Thank you" : "Please type more than 3 characters"}</Text>
         )}
+        <Button title="Confirm" onPress={() => console.log(text)} />
     </View>
   )
 }

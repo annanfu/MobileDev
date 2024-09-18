@@ -1,7 +1,7 @@
-import { Button, Modal, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Button, Modal, StyleSheet, Text, TextInput, View, Alert, Image } from 'react-native'
 import React, {useState} from 'react'
 
-export default function Input({ textInputFocus, inputHandler, visibility }) {
+export default function Input({ textInputFocus, inputHandler, visibility, cancelHandler }) {
   const [text, setText] = useState('');
   const [focus, setFocus] = useState(false);
   const [count, setCount] = useState(0);
@@ -9,12 +9,36 @@ export default function Input({ textInputFocus, inputHandler, visibility }) {
     // console.log(text);
     // call the callback function you received from App.js and pass the text that user has typed
     inputHandler(text);
+    setText('');
+    setCount(0);
+  }
+  function handleCancel() {
+    setText('');
+    setCount(0);
+    Alert.alert('Confirm Cancel', 'Are you sure to cancel?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {text: 'OK', onPress: () => {cancelHandler()}},
+    ])
   }
 
   return (
-    <Modal animationType='slide' visible={visibility}>
+    <Modal animationType='slide' visible={visibility} transparent={true}>
     <View style={styles.container}>
-      
+      <View style={styles.innerContainer}>
+      <Image 
+        source={{uri: "https://cdn-icons-png.flaticon.com/512/2617/2617812.png"}}
+        style={styles.image}
+        alt="icon"
+      />
+      <Image
+        source={require('../assets/2617812.png')}
+        style={styles.image}
+        alt="icon"
+      />
+
       <TextInput
         style={styles.input}
         autoFocus={textInputFocus}
@@ -35,7 +59,11 @@ export default function Input({ textInputFocus, inputHandler, visibility }) {
         {!focus && count > 0 && (
           <Text>{count >= 3 ? "Thank you" : "Please type more than 3 characters"}</Text>
         )}
-        <Button title="Confirm" onPress={handleConfirm} />
+        <View style={{flexDirection: 'row', gap: 20} }>
+          <Button title="Cancel" onPress={handleCancel} />
+          <Button title="Confirm" disabled={count < 3} onPress={handleConfirm} />
+        </View>
+      </View>
     </View>
     </Modal>
   )
@@ -44,13 +72,23 @@ export default function Input({ textInputFocus, inputHandler, visibility }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
   input: {
+    margin: 10,
     borderColor: 'gray',
     borderWidth: 2,
     padding: 10,
-  }
+  },
+  image: {
+    width: 100,
+    height: 100,
+  },
+  innerContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
 });

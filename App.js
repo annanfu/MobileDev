@@ -15,6 +15,9 @@ export default function App() {
     setReceivedData(data);
     setVisible(false);
   };
+  const handleCancel = () => {
+    setVisible(false);
+  }
   return (
     <SafeAreaView style={styles.container}>
 
@@ -26,6 +29,7 @@ export default function App() {
           textInputFocus={true}
           inputHandler={handleInputData}
           visibility={visible}
+          cancelHandler={handleCancel}
           />
       </View>
       <View style={styles.bottomView}>

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Header from './Components/Header';
 import React, { useState } from 'react';
 import Input from './Components/Input';
@@ -38,14 +38,16 @@ export default function App() {
           cancelHandler={handleCancel}
           />
       </View>
-      <View style={styles.bottomView}>
-      {/* user goals.map() and return a view and a text for each array item*/}
-      {goals.map((goalObject) => (
-        <View style={styles.textContainer} key={goalObject.id}>
-          <Text style={styles.text}>{goalObject.text}</Text>
-        </View>))}
 
-      </View>
+        <View style={styles.bottomView}>
+          <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+            {/* user goals.map() and return a view and a text for each array item*/}
+            {goals.map((goalObject) => (
+              <View style={styles.textContainer} key={goalObject.id}> 
+                <Text style={styles.text}>{goalObject.text}</Text>
+              </View>))}
+          </ScrollView>
+        </View>
     </SafeAreaView>
     
   );
@@ -60,8 +62,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'darkblue',
-    fontSize: 20,
-     padding: 5,
+    fontSize: 50,
+    padding: 50,
   },
   topView:{
     flex:1,
@@ -72,11 +74,15 @@ const styles = StyleSheet.create({
     color: 'white',
     backgroundColor: 'darkblue',
     flex:4,
-    alignItems: 'center',
-  },
+    // alignItems: 'center', if using this the scroll will be inside the bottomView
+   },
   textContainer: {
     backgroundColor: 'white',
     borderRadius: 20,
     marginTop: 20,
+
+  },
+  scrollViewContainer: {
+    alignItems: 'center',
   },
 });

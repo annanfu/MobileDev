@@ -3,6 +3,7 @@ import { Button, FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TextInput
 import Header from './Components/Header';
 import React, { useState } from 'react';
 import Input from './Components/Input';
+import GoalItem from './Components/GoalItem';
 
 export default function App() {
   const [receivedData, setReceivedData] = useState('');
@@ -24,6 +25,10 @@ export default function App() {
   const handleCancel = () => {
     setVisible(false);
   }
+  function handleDelete(deletedId) {
+    console.log('App.js knows that the goal with id', deletedId, 'is deleted');
+    setGoals((prevGoals) => (prevGoals.filter((goalObj) => goalObj.id !== deletedId)));   // update the status based on the previous state
+  }
   return (
     <SafeAreaView style={styles.container}>
 
@@ -44,12 +49,8 @@ export default function App() {
             contentContainerStyle={styles.scrollViewContainer} 
             data={goals}
             renderItem={({ item }) => {   // destructure the item from receivedObj
-             (console.log(receivedObj))
-            return (
-              <View style={styles.textContainer} key={item.id}> 
-                <Text style={styles.text}>{item.text}</Text>
-              </View>
-            );
+            // (console.log(receivedObj))
+            return <GoalItem deleteHandler={handleDelete} goalObj={item}/>;
             }}
           />
           {/* <ScrollView contentContainerStyle={styles.scrollViewContainer}>
@@ -93,7 +94,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     marginTop: 20,
-
   },
   scrollViewContainer: {
     alignItems: 'center',

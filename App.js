@@ -46,7 +46,8 @@ export default function App() {
 
         <View style={styles.bottomView}>
           <FlatList
-            ListEmptyComponent={<Text style={styles.textEmptyList}>No goals to show</Text>}
+            ListEmptyComponent={<Text style={styles.textList}>No goals to show</Text>}
+            ListHeaderComponent={goals.length > 0 && <Text style={styles.textList}>Goals</Text>}
             contentContainerStyle={styles.scrollViewContainer} 
             data={goals}
             renderItem={({ item }) => {   // destructure the item from receivedObj
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     fontSize: 50,
     padding: 50,
   },
-  textEmptyList: {
+  textList: {
     color: 'yellow',
     fontSize: 20,
     padding: 20,

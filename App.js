@@ -7,12 +7,18 @@ import Input from './Components/Input';
 export default function App() {
   const [receivedData, setReceivedData] = useState('');
   const [visible, setVisible] = useState(false);
+  const [goals, setGoals] = useState([]);
   const appName = 'My app'; 
   // update to receive data (The input data is stored in the local function scope, we
   // need to use the useState hook to store the data in the App component's state
   const handleInputData = (data) => {
     console.log("App.js", data);
-    setReceivedData(data);
+    let newGoal = {text: data, id: Math.random()};
+    // make a new obj and store the received data as the obj's text property
+    //const newGoals = [...goals, newGoal];
+    //setGoals(newGoals);  // asynchrnous function which will be updated in the next render cycle
+    setGoals((currentGoals) => [...currentGoals, newGoal]); // update the status based on the previous state
+    //setReceivedData(data);
     setVisible(false);
   };
   const handleCancel = () => {
@@ -33,9 +39,12 @@ export default function App() {
           />
       </View>
       <View style={styles.bottomView}>
-        <View style={styles.textContainer}>
-          <Text style={styles.text} >{receivedData} </Text>
-        </View>
+      {/* user goals.map() and return a view and a text for each array item*/}
+      {goals.map((goalObject) => (
+        <View style={styles.textContainer} key={goalObject.id}>
+          <Text style={styles.text}>{goalObject.text}</Text>
+        </View>))}
+
       </View>
     </SafeAreaView>
     
@@ -50,7 +59,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    color: 'white',
+    color: 'darkblue',
     fontSize: 20,
      padding: 5,
   },

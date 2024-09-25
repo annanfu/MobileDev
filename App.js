@@ -55,6 +55,7 @@ export default function App() {
 
         <View style={styles.bottomView}>
           <FlatList
+            ItemSeparatorComponent={() => <View style={styles.separator} />}
             ListEmptyComponent={<Text style={styles.textList}>No goals to show</Text>}
             ListHeaderComponent={goals.length > 0 && <Text style={styles.textList}>Goals</Text>}
             ListFooterComponent={
@@ -112,9 +113,12 @@ const styles = StyleSheet.create({
   textContainer: {
     backgroundColor: 'white',
     borderRadius: 20,
-    marginTop: 10,
   },
   scrollViewContainer: {
     alignItems: 'center',
+  },
+  separator: {
+    backgroundColor: 'yellow',
+    height: 2,
   },
 });

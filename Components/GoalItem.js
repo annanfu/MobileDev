@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   textContainer: {
     backgroundColor: 'white',
     borderRadius: 5,
-    marginTop: 20,
+    margin: 20,
     flexDirection: 'row',
     alignContent: 'center',  // center the text and button
   },

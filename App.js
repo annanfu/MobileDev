@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View, Alert } from 'react-native';
 import Header from './Components/Header';
 import React, { useState } from 'react';
 import Input from './Components/Input';
@@ -29,6 +29,15 @@ export default function App() {
     console.log('App.js knows that the goal with id', deletedId, 'is deleted');
     setGoals((prevGoals) => (prevGoals.filter((goalObj) => goalObj.id !== deletedId)));   // update the status based on the previous state
   }
+  function handleDeleteAll() {
+    Alert.alert('Confirm Delete All', 'Are you sure to delete all?', [
+      {
+        text: 'No',
+        style: 'cancel',
+      },
+      {text: 'Yes', onPress: () => {setGoals([])}},
+    ])
+  }
   return (
     <SafeAreaView style={styles.container}>
 
@@ -46,6 +55,12 @@ export default function App() {
 
         <View style={styles.bottomView}>
           <FlatList
+            ItemSeparatorComponent={() => <View style={styles.separator} />}
+            ListEmptyComponent={<Text style={styles.textList}>No goals to show</Text>}
+            ListHeaderComponent={goals.length > 0 && <Text style={styles.textList}>Goals</Text>}
+            ListFooterComponent={
+              goals.length > 0 && <Button onPress={handleDeleteAll} title="Delete all"/>
+            }
             contentContainerStyle={styles.scrollViewContainer} 
             data={goals}
             renderItem={({ item }) => {   // destructure the item from receivedObj
@@ -79,6 +94,11 @@ const styles = StyleSheet.create({
     fontSize: 50,
     padding: 50,
   },
+  textList: {
+    color: 'yellow',
+    fontSize: 20,
+    padding: 10,
+  },
   topView:{
     flex:1,
     alignItems: 'center',
@@ -93,9 +113,12 @@ const styles = StyleSheet.create({
   textContainer: {
     backgroundColor: 'white',
     borderRadius: 20,
-    marginTop: 20,
   },
   scrollViewContainer: {
     alignItems: 'center',
+  },
+  separator: {
+    backgroundColor: 'yellow',
+    height: 2,
   },
 });

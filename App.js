@@ -26,10 +26,6 @@ export default function App() {
           component={Home}
           options={{
             title: "My Goals",
-            headerStyle: {
-              backgroundColor: "blue",
-            },
-            headerTintColor: "yellow",
           }}
         />
         <Stack.Screen

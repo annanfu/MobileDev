@@ -14,38 +14,47 @@ console.log(Stack);
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerTintColor: "yellow",
+          headerStyle: { backgroundColor: "blue" },
+        }}
+      >
         <Stack.Screen
           name="Home"
           component={Home}
           options={{
-            title: 'My Goals',
+            title: "My Goals",
             headerStyle: {
-              backgroundColor: 'blue',
+              backgroundColor: "blue",
             },
-            headerTintColor: 'yellow',
-            }} />
+            headerTintColor: "yellow",
+          }}
+        />
         <Stack.Screen
           name="Details"
           component={GoalDetails}
-          options={({route}) => {return {
-            // conditionally render the title
-            title: route.params ? route.params.goalData.text : "More details",
-            headerRight: () => {
-              return (
-              <Button
-                title="Warning"
-                onPress={() => {console.log('Warning')}}
-              />
-              )
-            }
+          options={({ route }) => {
+            return {
+              // conditionally render the title
+              title: route.params ? route.params.goalData.text : "More details",
+              headerRight: () => {
+                return (
+                  <Button
+                    title="Warning"
+                    onPress={() => {
+                      console.log("Warning");
+                    }}
+                  />
+                );
+              },
+            };
           }}
-        }
-            
         />
       </Stack.Navigator>
     </NavigationContainer>
-  )
+  );
 }
 
 const styles = StyleSheet.create({})

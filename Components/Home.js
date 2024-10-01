@@ -56,12 +56,13 @@ export default function Home( {navigation} ) {
     ]);
   }
 
+/*
 function handleGoalPress(pressedGoal) {  // navigate to the GoalDetails screen
     // receive the goalObj from the GoalItem component
     console.log('pressedGoal', pressedGoal);
     navigation.navigate('Details', {goalData: pressedGoal}); // param is an object
     }
-
+*/
 
 
   return (
@@ -99,7 +100,7 @@ function handleGoalPress(pressedGoal) {  // navigate to the GoalDetails screen
             // (console.log(receivedObj))
             return <GoalItem
                     deleteHandler={handleDelete}
-                    pressHandler={handleGoalPress}
+                    navigation={navigation}
                     goalObj={item} />;
           }}
         />

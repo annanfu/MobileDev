@@ -15,7 +15,7 @@ import React, { useState } from "react";
 import Input from "./Input";
 import GoalItem from "./GoalItem";
 
-export default function Home() {
+export default function Home( {navigation} ) {
   const [receivedData, setReceivedData] = useState("");
   const [visible, setVisible] = useState(false);
   const [goals, setGoals] = useState([]);
@@ -55,6 +55,13 @@ export default function Home() {
       },
     ]);
   }
+
+function handleGoalPress() {  // navigate to the GoalDetails screen
+    navigation.navigate('Details');
+    }
+
+
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -88,7 +95,10 @@ export default function Home() {
           renderItem={({ item }) => {
             // destructure the item from receivedObj
             // (console.log(receivedObj))
-            return <GoalItem deleteHandler={handleDelete} goalObj={item} />;
+            return <GoalItem
+                    deleteHandler={handleDelete}
+                    pressHandler={handleGoalPress}
+                    goalObj={item} />;
           }}
         />
         {/* <ScrollView contentContainerStyle={styles.scrollViewContainer}>

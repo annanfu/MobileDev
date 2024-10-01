@@ -19,9 +19,9 @@ export default function App() {
           name="Home"
           component={Home}
           options={{
-            title: 'My Goal',
+            title: 'My Goals',
             headerStyle: {
-              backgroundColor: 'darkblue',
+              backgroundColor: 'blue',
             },
             headerTintColor: 'yellow',
             }} />

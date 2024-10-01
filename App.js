@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Button } from 'react-native'
 import React from 'react'
 import Home from './Components/Home'
 import GoalDetails from './Components/GoalDetails'
@@ -25,7 +25,24 @@ export default function App() {
             },
             headerTintColor: 'yellow',
             }} />
-        <Stack.Screen name="Details" component={GoalDetails} options={{title: 'Goal Details'}} />
+        <Stack.Screen
+          name="Details"
+          component={GoalDetails}
+          options={({route}) => {return {
+            // conditionally render the title
+            title: route.params ? route.params.goalData.text : "More details",
+            headerRight: () => {
+              return (
+              <Button
+                title="Warning"
+                onPress={() => {console.log('Warning')}}
+              />
+              )
+            }
+          }}
+        }
+            
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )

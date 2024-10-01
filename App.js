@@ -18,7 +18,7 @@ export default function App() {
         initialRouteName="Home"
         screenOptions={{
           headerTintColor: "yellow",
-          headerStyle: { backgroundColor: "blue" },
+          headerStyle: { backgroundColor: "skyblue" },
         }}
       >
         <Stack.Screen
@@ -31,11 +31,12 @@ export default function App() {
         <Stack.Screen
           name="Details"
           component={GoalDetails}
+          /*
           options={({ route }) => {
             return {
               // conditionally render the title
               title: route.params ? route.params.goalData.text : "More details",
-              headerRight: () => {
+              /* headerRight: () => {
                 return (
                   <Button
                     title="Warning"
@@ -46,7 +47,7 @@ export default function App() {
                 );
               },
             };
-          }}
+          }}*/
         />
       </Stack.Navigator>
     </NavigationContainer>

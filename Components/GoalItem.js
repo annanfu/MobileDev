@@ -1,16 +1,20 @@
 import { StyleSheet, Text, View, Button } from 'react-native'
 import React from 'react'
 
-export default function GoalItem({goalObj, deleteHandler, pressHandler}) {
+export default function GoalItem({goalObj, deleteHandler, navigation}) {
   function handleDelete() { // need a callback function that passed to the parent component
     console.log('Delete')
     deleteHandler(goalObj.id);
   }
 
-  function handlePress() {
+  /*function handlePress() {
     // callback function that passed to the parent component
     // pass the goalObj back to the parent component Home.js
     pressHandler(goalObj);
+  } */
+ function handlePress() {
+    // navigate to the GoalDetails screen
+    navigation.navigate('Details', {goalData: goalObj});
   }
   return (
     <View style={styles.textContainer}>

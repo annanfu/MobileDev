@@ -18,7 +18,14 @@ export default function GoalItem({goalObj, deleteHandler, navigation}) {
   }
   return (
     <View style={styles.textContainer}>
-      <Pressable onPress={handlePress} style={styles.horizontalContainer} android_ripple={{color: 'yellow', radius: 30}}>
+      <Pressable
+        onPress={handlePress}
+        style={({pressed}) => [
+        styles.horizontalContainer,  // define the style comes first
+        pressed && styles.pressedStyle,  // conditional style comes last
+        ]
+      }
+        android_ripple={{color: 'yellow', radius: 30}}>
         <Text style={styles.text}>{goalObj.text}</Text>
         <Button title="X" color="grey" onPress={handleDelete} />
       </Pressable>
@@ -44,5 +51,8 @@ const styles = StyleSheet.create({
     //justifyContent: 'space-between',
     alignItems: 'center', // vertical alignment
   },
-
+  pressedStyle: {
+    opacity: 0.5,
+    backgroundColor: 'red',
+  },
 })

@@ -34,7 +34,7 @@ export default function GoalItem({goalObj, deleteHandler, navigation}) {
           pressedHandler={handleDelete}
           pressedStyle={styles.pressedStyle}
         >
-          <MaterialCommunityIcons name="trash-can" size={24} color="black" />
+          <MaterialCommunityIcons name="trash-can" size={24} color="black" />  
           {/* <Text style={styles.deleteText}>X</Text> */}
           {/* <Button title="X" color="grey" onPress={handleDelete} /> */}
         </PressableButton>

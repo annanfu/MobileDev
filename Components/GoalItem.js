@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Button, Pressable, Alert } from 'react-native'
 import React from 'react'
 import PressableButton from './PressableButton';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -14,14 +14,27 @@ export default function GoalItem({goalObj, deleteHandler, navigation}) {
     // pass the goalObj back to the parent component Home.js
     pressHandler(goalObj);
   } */
- function handlePress() {
+  function handlePress() {
     // navigate to the GoalDetails screen
     navigation.navigate('Details', {goalData: goalObj});
   }
+  function handleLongPress() {
+    Alert.alert("Delete", "Are you sure you want to delete this item?", [
+      {
+        text: "No",
+      },
+      {
+        text: "Yes",
+        onPress: handleDelete,
+      },
+    ]);
+  }
+
   return (
     <View style={styles.textContainer}>
       <Pressable
         onPress={handlePress}
+        onLongPress={handleLongPress} // long press event
         style={({ pressed }) => [
           styles.horizontalContainer, // define the style comes first
           pressed && styles.pressedStyle, // conditional style comes last

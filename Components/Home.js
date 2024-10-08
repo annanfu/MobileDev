@@ -9,11 +9,13 @@ import {
   TextInput,
   View,
   Alert,
+  Pressable,
 } from "react-native";
 import Header from "./Header";
 import React, { useState } from "react";
 import Input from "./Input";
 import GoalItem from "./GoalItem";
+import PressableButton from "./PressableButton";
 
 export default function Home( {navigation} ) {
   const [receivedData, setReceivedData] = useState("");
@@ -70,7 +72,14 @@ function handleGoalPress(pressedGoal) {  // navigate to the GoalDetails screen
       <StatusBar style="auto" />
       <View style={styles.topView}>
         <Header name={appName} />
-        <Button title="Add a Goal" onPress={() => setVisible(true)} />
+        <PressableButton
+          componentStyle={{backgroundColor: "purple"}}
+          pressedHandler={() => setVisible(true)}
+        >
+
+          <Text style={styles.buttonText}>Add a Goal</Text>
+        </PressableButton>
+
         <Input
           textInputFocus={true}
           inputHandler={handleInputData}
@@ -98,10 +107,13 @@ function handleGoalPress(pressedGoal) {  // navigate to the GoalDetails screen
           renderItem={({ item }) => {
             // destructure the item from receivedObj
             // (console.log(receivedObj))
-            return <GoalItem
-                    deleteHandler={handleDelete}
-                    navigation={navigation}
-                    goalObj={item} />;
+            return (
+              <GoalItem
+                deleteHandler={handleDelete}
+                navigation={navigation}
+                goalObj={item}
+              />
+            );
           }}
         />
         {/* <ScrollView contentContainerStyle={styles.scrollViewContainer}>
@@ -155,5 +167,9 @@ const styles = StyleSheet.create({
   separator: {
     backgroundColor: "yellow",
     height: 2,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 20,
   },
 });

@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Button, Pressable } from 'react-native'
 import React from 'react'
 import PressableButton from './PressableButton';
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 export default function GoalItem({goalObj, deleteHandler, navigation}) {
   function handleDelete() { // need a callback function that passed to the parent component
@@ -21,20 +22,21 @@ export default function GoalItem({goalObj, deleteHandler, navigation}) {
     <View style={styles.textContainer}>
       <Pressable
         onPress={handlePress}
-        style={({pressed}) => [
-        styles.horizontalContainer,  // define the style comes first
-        pressed && styles.pressedStyle,  // conditional style comes last
-        ]
-      }
-        android_ripple={{color: 'yellow', radius: 30}}>
+        style={({ pressed }) => [
+          styles.horizontalContainer, // define the style comes first
+          pressed && styles.pressedStyle, // conditional style comes last
+        ]}
+        android_ripple={{ color: "yellow", radius: 30 }}
+      >
         <Text style={styles.text}>{goalObj.text}</Text>
         <PressableButton
           componentStyle={styles.deleteButton}
           pressedHandler={handleDelete}
           pressedStyle={styles.pressedStyle}
         >
-          <Text style={styles.deleteText}>X</Text>
-        {/* <Button title="X" color="grey" onPress={handleDelete} /> */}
+          <MaterialCommunityIcons name="trash-can" size={24} color="black" />
+          {/* <Text style={styles.deleteText}>X</Text> */}
+          {/* <Button title="X" color="grey" onPress={handleDelete} /> */}
         </PressableButton>
       </Pressable>
     </View>

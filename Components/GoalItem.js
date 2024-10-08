@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Button, Pressable } from 'react-native'
 import React from 'react'
+import PressableButton from './PressableButton';
 
 export default function GoalItem({goalObj, deleteHandler, navigation}) {
   function handleDelete() { // need a callback function that passed to the parent component
@@ -27,7 +28,14 @@ export default function GoalItem({goalObj, deleteHandler, navigation}) {
       }
         android_ripple={{color: 'yellow', radius: 30}}>
         <Text style={styles.text}>{goalObj.text}</Text>
-        <Button title="X" color="grey" onPress={handleDelete} />
+        <PressableButton
+          componentStyle={styles.deleteButton}
+          pressedHandler={handleDelete}
+          pressedStyle={styles.pressedStyle}
+        >
+          <Text style={styles.deleteText}>X</Text>
+        {/* <Button title="X" color="grey" onPress={handleDelete} /> */}
+        </PressableButton>
       </Pressable>
     </View>
   );
@@ -54,5 +62,12 @@ const styles = StyleSheet.create({
   pressedStyle: {
     opacity: 0.5,
     backgroundColor: 'red',
+  },
+  deleteButton: {
+    backgroundColor: 'grey',
+  },
+  deleteText: {
+    color: 'white',
+    fontSize: 20,
   },
 })

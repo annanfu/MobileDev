@@ -10,6 +10,7 @@ import {
   View,
   Alert,
   Pressable,
+  Platform,
 } from "react-native";
 import Header from "./Header";
 import React, { useState } from "react";
@@ -73,10 +74,9 @@ function handleGoalPress(pressedGoal) {  // navigate to the GoalDetails screen
       <View style={styles.topView}>
         <Header name={appName} />
         <PressableButton
-          componentStyle={{backgroundColor: "purple"}}
+          componentStyle={{ backgroundColor: "purple" }}
           pressedHandler={() => setVisible(true)}
         >
-
           <Text style={styles.buttonText}>Add a Goal</Text>
         </PressableButton>
 
@@ -90,7 +90,15 @@ function handleGoalPress(pressedGoal) {  // navigate to the GoalDetails screen
 
       <View style={styles.bottomView}>
         <FlatList
-          ItemSeparatorComponent={() => <View style={styles.separator} />}
+          ItemSeparatorComponent={({ highlighted }) => (
+              <View
+                style={[
+                  styles.separator,
+                  highlighted && styles.separatorHighlighted
+                ]}
+              />
+            )
+          }
           ListEmptyComponent={
             <Text style={styles.textList}>No goals to show</Text>
           }
@@ -104,7 +112,7 @@ function handleGoalPress(pressedGoal) {  // navigate to the GoalDetails screen
           }
           contentContainerStyle={styles.scrollViewContainer}
           data={goals}
-          renderItem={({ item }) => {
+          renderItem={({ item, separators }) => {
             // destructure the item from receivedObj
             // (console.log(receivedObj))
             return (
@@ -112,6 +120,8 @@ function handleGoalPress(pressedGoal) {  // navigate to the GoalDetails screen
                 deleteHandler={handleDelete}
                 navigation={navigation}
                 goalObj={item}
+                onPressIn={separators.highlight}
+                onPressOut={separators.unhighlight}
               />
             );
           }}
@@ -166,7 +176,10 @@ const styles = StyleSheet.create({
   },
   separator: {
     backgroundColor: "yellow",
-    height: 2,
+    height: 3,
+  },
+  separatorHighlighted: {
+    backgroundColor: "purple",
   },
   buttonText: {
     color: "white",

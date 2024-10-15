@@ -19,7 +19,7 @@ import Input from "./Input";
 import GoalItem from "./GoalItem";
 import PressableButton from "./PressableButton";
 import { database } from "../Firebase/firebaseSetup";
-import { writeToDB } from "../Firebase/firestoreHelper";
+import { writeToDB, deleteFromDB } from "../Firebase/firestoreHelper";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 
 export default function Home( {navigation} ) {
@@ -59,10 +59,11 @@ export default function Home( {navigation} ) {
     setVisible(false);
   };
   function handleDelete(deletedId) {
-    console.log("App.js knows that the goal with id", deletedId, "is deleted");
-    setGoals((prevGoals) =>
-      prevGoals.filter((goalObj) => goalObj.id !== deletedId)
-    ); // update the status based on the previous state
+    //console.log("App.js knows that the goal with id", deletedId, "is deleted");
+    //setGoals((prevGoals) =>
+    //  prevGoals.filter((goalObj) => goalObj.id !== deletedId)
+    //); // update the status based on the previous state
+    deleteFromDB(deletedId, "goals");
   }
   function handleDeleteAll() {
     Alert.alert("Confirm Delete All", "Are you sure to delete all?", [

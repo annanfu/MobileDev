@@ -57,7 +57,7 @@ export default function Home( {navigation} ) {
     //setGoals(newGoals);  // asynchrnous function which will be updated in the next render cycle
     //setGoals((currentGoals) => [...currentGoals, newGoal]); // update the status based on the previous state
     //setReceivedData(data);
-
+    setVisible(false);
   };
   const handleCancel = () => {
     setVisible(false);

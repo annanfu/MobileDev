@@ -31,7 +31,7 @@ export default function Home( {navigation} ) {
   // onSnapshot is a listener that listens to changes in the database
   // It takes a query as an argument and a callback function that will be called
   useEffect(() => {
-    onSnapshot(collection(database, "goals"), (querySnapshot) => {
+    const unsubscribe = onSnapshot(collection(database, "goals"), (querySnapshot) => {
       let newArray = [];
       querySnapshot.forEach((docSnapshot) => {
         console.log(docSnapshot.id);
@@ -40,6 +40,10 @@ export default function Home( {navigation} ) {
       });
       setGoals(newArray);
     });
+    // detach the listener when we no longer need to listen to the changes in data
+    return () => {
+      unsubscribe();
+    }
   }, []);
 
   // update to receive data (The input data is stored in the local function scope, we
@@ -53,7 +57,7 @@ export default function Home( {navigation} ) {
     //setGoals(newGoals);  // asynchrnous function which will be updated in the next render cycle
     //setGoals((currentGoals) => [...currentGoals, newGoal]); // update the status based on the previous state
     //setReceivedData(data);
-
+    setVisible(false);
   };
   const handleCancel = () => {
     setVisible(false);

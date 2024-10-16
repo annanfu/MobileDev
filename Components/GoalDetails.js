@@ -3,10 +3,11 @@ import React from 'react'
 import { useState, useLayoutEffect } from "react";
 import PressableButton from './PressableButton';
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { updateGoalWarning } from '../Firebase/firestoreHelper';
 
 export default function GoalDetails({navigation, route}) {
   const [warning, setWarning] = useState(false);
-  console.log(route);
+ //console.log(route);
     function moreDetailsHandler() {
         // navigation.navigate('Details'); Error without params, goalData is undefined
         navigation.push("Details");
@@ -16,7 +17,8 @@ export default function GoalDetails({navigation, route}) {
     navigation.setOptions({
       headerRight: () => (
         <PressableButton
-          pressedHandler={() => {
+          pressedHandler={async() => {
+            await updateGoalWarning(route.params.goalData.id, 'goals');
             setWarning(true);
           }}
         >

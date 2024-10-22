@@ -2,6 +2,7 @@ import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useEffect, useState } from "react";
 import { writeToDB } from '../Firebase/firestoreHelper';
+import { getAllDocuments } from '../Firebase/firestoreHelper';
 
 export default function GoalUsers({id}) {
     const [users, setUsers] = useState([]);
@@ -9,6 +10,15 @@ export default function GoalUsers({id}) {
           // fetch data
       async function fetchData() {
         try {
+          // check and see if we already have users in the database
+          const dataFromDB = await getAllDocuments(`goals/${id}/users`);
+          if (dataFromDB.length) {
+            console.log("data from db");
+            setUsers(dataFromDB);
+            return;
+          }
+          console.log("data from API");
+
           const response = await fetch(
             "https://jsonplaceholder.typicode.com/users/"
           );

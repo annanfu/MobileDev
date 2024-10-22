@@ -17,6 +17,7 @@ export async function deleteFromDB(deletedId, collectionName) {
   try {
     await deleteDoc(doc(database, collectionName, deletedId));
     console.log("Document deleted with ID: ", deletedId);
+    deleteAllFromDB(`goals/${deletedId}/users`);
   } catch (err) {
     console.log("Delete from db", err);
   }
@@ -42,3 +43,22 @@ export async function updateGoalWarning(goalId, collectionName) {
         console.log("Update goal warning", err);
     }
 }
+
+
+export async function getAllDocuments(collectionName) {
+  try {
+    const querySnapshot = await getDocs(collection(database, collectionName));
+    let data = [];
+    if(!querySnapshot.empty) {
+
+      querySnapshot.forEach((docSnap) => {
+        data.push({ ...docSnap.data(), id: docSnap.id });
+      });
+  }
+  return data;
+  } catch (err) {  
+    console.log("Get all documents", err);
+  }
+}
+
+

@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Signup from './Components/Signup'
 import Login from './Components/Login'
 import { app, auth } from './Firebase/firebaseSetup'
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useEffect, useState, useLayoutEffect } from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import PressableButton from './Components/PressableButton';
@@ -60,7 +60,19 @@ const appStack = (
             };
           }}*/
     />
-    <Stack.Screen name="Profile" component={Profile} />
+    <Stack.Screen
+      name="Profile"
+      component={Profile}
+      options={{
+        headerRight: () => (
+          <PressableButton
+            pressedHandler={() => signOut(auth)}
+          >
+            <AntDesign name="logout" size={24} color="black" />
+          </PressableButton>
+        ),
+      }}
+    />
   </>
 );
 

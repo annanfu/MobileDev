@@ -8,7 +8,10 @@ import Signup from './Components/Signup'
 import Login from './Components/Login'
 import { app, auth } from './Firebase/firebaseSetup'
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useLayoutEffect } from "react";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import PressableButton from './Components/PressableButton';
+import Profile from './Components/Profile';
 
 
 const Stack = createNativeStackNavigator(); // don't need to put in the component to avoid re-rendering
@@ -25,9 +28,16 @@ const appStack = (
     <Stack.Screen
       name="Home"
       component={Home}
-      options={{
-        title: "My Goals",
-      }}
+      options={({ navigation }) => ({
+        title: "Profile",
+        headerRight: () => (
+          <PressableButton
+            pressedHandler={() => navigation.navigate("Profile")}
+          >
+            <AntDesign name="user" size={24} color="black" />
+          </PressableButton>
+        ),
+      })}
     />
     <Stack.Screen
       name="Details"
@@ -50,6 +60,7 @@ const appStack = (
             };
           }}*/
     />
+    <Stack.Screen name="Profile" component={Profile} />
   </>
 );
 
@@ -57,12 +68,16 @@ const appStack = (
 
 export default function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+
+
   useEffect(() => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
       setIsUserLoggedIn(true);
+      console.log("User is signed in");
     } else {
       // User is signed out
       setIsUserLoggedIn(false);

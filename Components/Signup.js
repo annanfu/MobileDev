@@ -36,7 +36,7 @@ export default function Signup({ navigation }) {
       );
     } catch (error) {
       console.log(error);
-      Alert.alert(err.message);
+      Alert.alert(error.message);
     }
   };
 

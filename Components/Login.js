@@ -21,7 +21,7 @@ export default function Login({ navigation }) {
       console.log(userCredential.user);
     } catch (error) {
         console.log("login", error);
-        Alert.alert(err.message);
+        Alert.alert(error.message);
     }
 
 

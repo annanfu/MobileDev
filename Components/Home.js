@@ -21,6 +21,7 @@ import PressableButton from "./PressableButton";
 import { database } from "../Firebase/firebaseSetup";
 import { writeToDB, deleteFromDB, deleteAllFromDB } from "../Firebase/firestoreHelper";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { auth } from "../Firebase/firebaseSetup";
 
 export default function Home( {navigation} ) {
   const [receivedData, setReceivedData] = useState("");
@@ -31,7 +32,10 @@ export default function Home( {navigation} ) {
   // onSnapshot is a listener that listens to changes in the database
   // It takes a query as an argument and a callback function that will be called
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(database, "goals"), (querySnapshot) => {
+    const unsubscribe = onSnapshot(
+    query(collection(database, "goals"),
+    where("owner", "==", auth.currentUser.uid)),
+    (querySnapshot) => {
       let newArray = [];
       querySnapshot.forEach((docSnapshot) => {
         console.log(docSnapshot.id);
@@ -39,6 +43,9 @@ export default function Home( {navigation} ) {
         console.log(newArray);
       });
       setGoals(newArray);
+    }, (error) => {
+      console.log("Error with onSnapshot", error);
+      Alert.alert(error.message);
     });
     // detach the listener when we no longer need to listen to the changes in data
     return () => {
@@ -51,6 +58,11 @@ export default function Home( {navigation} ) {
   const handleInputData = (data) => {
     console.log("App.js", data);
     let newGoal = { text: data };
+
+    // add info about the owner of the goal
+    newGoal = {...newGoal, owner: auth.currentUser.uid};
+
+
     writeToDB(newGoal, "goals"); // write the new goal to the database
     // make a new obj and store the received data as the obj's text property
     //const newGoals = [...goals, newGoal];

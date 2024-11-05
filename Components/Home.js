@@ -57,13 +57,13 @@ export default function Home( {navigation} ) {
   // need to use the useState hook to store the data in the App component's state
   const handleInputData = (data) => {
     console.log("App.js", data);
-    let newGoal = { text: data };
+    let newGoal = { text: data.text };
 
     // add info about the owner of the goal
     newGoal = {...newGoal, owner: auth.currentUser.uid};
 
 
-    writeToDB(newGoal, "goals"); // write the new goal to the database
+    //writeToDB(newGoal, "goals"); // write the new goal to the database
     // make a new obj and store the received data as the obj's text property
     //const newGoals = [...goals, newGoal];
     //setGoals(newGoals);  // asynchrnous function which will be updated in the next render cycle

@@ -17,6 +17,7 @@ export default function GoalItem({ goalObj, deleteHandler, navigation, onPressIn
   } */
   function handlePress() {
     // navigate to the GoalDetails screen
+    console.log("Press", goalObj);
     navigation.navigate("Details", { goalData: goalObj });
   }
   function handleLongPress() {

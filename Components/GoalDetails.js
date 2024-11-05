@@ -8,7 +8,7 @@ import GoalUsers from './GoalUsers';
 
 export default function GoalDetails({navigation, route}) {
   const [warning, setWarning] = useState(false);
- //console.log(route);
+ console.log(route);
     function moreDetailsHandler() {
         // navigation.navigate('Details'); Error without params, goalData is undefined
         navigation.push("Details");

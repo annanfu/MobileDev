@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View, Button} from 'react-native'
+import { StyleSheet, Text, View, Button, Image} from 'react-native'
 import React from 'react'
 import { useState, useLayoutEffect, useEffect } from "react";
 import PressableButton from './PressableButton';
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { updateGoalWarning } from '../Firebase/firestoreHelper';
 import GoalUsers from './GoalUsers';
+import { storage } from '../Firebase/firebaseSetup'; 
+import { ref, getDownloadURL } from 'firebase/storage'; 
 
 export default function GoalDetails({navigation, route}) {
   const [warning, setWarning] = useState(false);

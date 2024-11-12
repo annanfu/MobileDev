@@ -12,6 +12,7 @@ import { useEffect, useState, useLayoutEffect } from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import PressableButton from './Components/PressableButton';
 import Profile from './Components/Profile';
+import Map from './Components/Map';
 
 
 const Stack = createNativeStackNavigator(); // don't need to put in the component to avoid re-rendering
@@ -65,14 +66,13 @@ const appStack = (
       component={Profile}
       options={{
         headerRight: () => (
-          <PressableButton
-            pressedHandler={() => signOut(auth)}
-          >
+          <PressableButton pressedHandler={() => signOut(auth)}>
             <AntDesign name="logout" size={24} color="black" />
           </PressableButton>
         ),
       }}
     />
+    <Stack.Screen name="Map" component={Map} />
   </>
 );
 

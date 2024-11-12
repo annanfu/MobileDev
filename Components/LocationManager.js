@@ -1,10 +1,17 @@
-import { StyleSheet, Text, View, Button } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Button, Image } from 'react-native'
+import { Dimensions } from "react-native";
+import React, { useState } from 'react'
 import * as Location from "expo-location";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
+
+const windowWidth = Dimensions.get("window").width;
+
+const mapsApiKey = process.env.EXPO_PUBLIC_mapsApiKey;
 
 
 export default function LocationManager() {
+    const navigation = useNavigation();
     const [response, requestPermission] = Location.useForegroundPermissions();
     const [location, setLocation] = useState(null);
     // check if the user has granted permission to location
@@ -32,14 +39,33 @@ export default function LocationManager() {
             console.log(error);
         }
     }
-
-
-
+  if (location)console.log(`https://maps.googleapis.com/maps/api/staticmap?center=${location.latitude},${location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${location.latitude},${location.longitude}&key=${mapsApiKey}`);
+  
   return (
     <View>
-      <Button title="Find My Location" onPress={locateUserHandler} />
+      <Button title="Locate Me" onPress={locateUserHandler} />
+      <Button 
+        title="Let me choose on the map"
+        onPress={() => {
+            navigation.navigate("Map");
+        }}
+      />
+      {location && (
+        <Image
+          source={{
+            uri: `https://maps.googleapis.com/maps/api/staticmap?center=${location.latitude},${location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${location.latitude},${location.longitude}&key=${mapsApiKey}`,
+          }}
+          style={styles.image}
+        />
+      )}
     </View>
   );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  image: {
+    height: 200,
+    width: windowWidth,
+  },
+
+})

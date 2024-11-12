@@ -18,10 +18,11 @@ import React, { useState } from "react";
 import Input from "./Input";
 import GoalItem from "./GoalItem";
 import PressableButton from "./PressableButton";
-import { database } from "../Firebase/firebaseSetup";
+import { database, storage } from "../Firebase/firebaseSetup";
 import { writeToDB, deleteFromDB, deleteAllFromDB } from "../Firebase/firestoreHelper";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { auth } from "../Firebase/firebaseSetup";
+import { ref, uploadBytesResumable } from "firebase/storage";
 
 export default function Home( {navigation} ) {
   const [receivedData, setReceivedData] = useState("");
@@ -53,17 +54,45 @@ export default function Home( {navigation} ) {
     }
   }, []);
 
+
+  async function fetchAndUploadImage(uri) {
+    try {
+      const response = await fetch(uri);
+      if (!response.ok) {
+        throw new Error("The request was not successful");
+      }
+      const blob = await response.blob();
+      const imageName = uri.substring(uri.lastIndexOf("/") + 1);
+      const imageRef = ref(storage, `images/${imageName}`);
+      const uploadResult = await uploadBytesResumable(imageRef, blob);
+      console.log(uploadResult.metadata.fullPath);
+      return uploadResult.metadata.fullPath;
+    } catch (err) {
+      console.log("retrieve and upload image ", err);
+    }
+  }
+
   // update to receive data (The input data is stored in the local function scope, we
   // need to use the useState hook to store the data in the App component's state
-  const handleInputData = (data) => {
+  async function handleInputData(data) {
     console.log("App.js", data);
+    let imageUri = "";
+    if (data.imageUri) {
+      imageUri = await fetchAndUploadImage(data.imageUri);
+    }
     let newGoal = { text: data.text };
-
     // add info about the owner of the goal
-    newGoal = {...newGoal, owner: auth.currentUser.uid};
+    newGoal = { ...newGoal, owner: auth.currentUser.uid };
+    if (imageUri) {
+      newGoal = { ...newGoal, imageUri: imageUri };
+    }
+    // we will extract imageUri from data
+    //define a new object {text:.., id:..}
+    //set the text property with the data received
+    //set the id property with a random number between 0 and 1
 
 
-    //writeToDB(newGoal, "goals"); // write the new goal to the database
+    writeToDB(newGoal, "goals"); // write the new goal to the database
     // make a new obj and store the received data as the obj's text property
     //const newGoals = [...goals, newGoal];
     //setGoals(newGoals);  // asynchrnous function which will be updated in the next render cycle

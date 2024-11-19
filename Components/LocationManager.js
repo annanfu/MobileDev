@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Button, Image } from 'react-native'
 import { Dimensions } from "react-native";
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Location from "expo-location";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
@@ -11,9 +11,18 @@ const mapsApiKey = process.env.EXPO_PUBLIC_mapsApiKey;
 
 
 export default function LocationManager() {
+    // as LocationManager is not a screen, we need to use the navigation and route hooks
     const navigation = useNavigation();
+    const route = useRoute();
     const [response, requestPermission] = Location.useForegroundPermissions();
     const [location, setLocation] = useState(null);
+
+    useEffect(() => {
+      if (route.params) {
+      setLocation(route.params?.selectedLocation);
+      }
+    }, [route]);
+
     // check if the user has granted permission to location
     async function verifyPermission() {
 

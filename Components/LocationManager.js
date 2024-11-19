@@ -21,7 +21,7 @@ export default function LocationManager() {
     useEffect(() => {
       async function getUserData() {
         const userData = await getOneDocument(auth.currentUser.uid, "users");
-        if(userData) {
+        if(userData && userData.location) {
           setLocation(userData.location);
         }
       }

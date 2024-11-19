@@ -45,9 +45,9 @@ export default function GoalDetails({navigation, route}) {
 
 
   useEffect(() => {
-    async function getImageUrl() {
+    async function getImageUri() {
       try {
-      if (route.params.goalData.imageUri) {
+      if (route.params && route.params.goalData.imageUri) {
         const imageRef = ref(storage, route.params.goalData.imageUri);
         const httpsImageUri = await getDownloadURL(imageRef);
         console.log(httpsImageUri);
@@ -57,7 +57,7 @@ export default function GoalDetails({navigation, route}) {
       console.log(error);
     }
     }
-    getImageUrl();
+    getImageUri();
 
     
   }, []);
@@ -74,7 +74,7 @@ export default function GoalDetails({navigation, route}) {
         <Text style={warning && styles.text}>More details</Text>
       )}
       <Button title="More Details" onPress={moreDetailsHandler} />
-      <GoalUsers id={route.params.goalData.id} />
+      {route.params && <GoalUsers id={route.params.goalData.id} />}
       {imageUri && (
         <Image
           source={{

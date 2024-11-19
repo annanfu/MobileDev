@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View, Button, Image } from 'react-native'
 import { Dimensions } from "react-native";
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Location from "expo-location";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { auth } from '../Firebase/firebaseSetup';
+import { getOneDocument, updateDB } from '../Firebase/firestoreHelper';
 
 
 const windowWidth = Dimensions.get("window").width;
@@ -11,9 +13,31 @@ const mapsApiKey = process.env.EXPO_PUBLIC_mapsApiKey;
 
 
 export default function LocationManager() {
+    // as LocationManager is not a screen, we need to use the navigation and route hooks
     const navigation = useNavigation();
+    const route = useRoute();
     const [response, requestPermission] = Location.useForegroundPermissions();
     const [location, setLocation] = useState(null);
+    useEffect(() => {
+      async function getUserData() {
+        const userData = await getOneDocument(auth.currentUser.uid, "users");
+        if(userData && userData.location) {
+          setLocation(userData.location);
+        }
+      }
+      getUserData();
+    }, []);
+    useEffect(() => {
+      if (route.params) {
+        setLocation(route.params.selectedLocation);
+      }
+    }, [route]);
+
+    function saveLocationHandler() {
+    //call updatedDB from firebaseHelper
+          updateDB(auth.currentUser.uid, {location}, "users");
+          navigation.navigate("Home");
+    }
     // check if the user has granted permission to location
     async function verifyPermission() {
 
@@ -58,6 +82,11 @@ export default function LocationManager() {
           style={styles.image}
         />
       )}
+      <Button
+        disabled={!location}
+        title="Save My Location"
+        onPress={saveLocationHandler}
+      />
     </View>
   );
 }

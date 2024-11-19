@@ -13,7 +13,15 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import PressableButton from './Components/PressableButton';
 import Profile from './Components/Profile';
 import Map from './Components/Map';
+import * as Notifications from 'expo-notifications';
 
+Notifications.setNotificationHandler({
+  handleNotification: async() => {
+  return {
+    shouldShowAlert: true,
+  };
+  }
+});
 
 const Stack = createNativeStackNavigator(); // don't need to put in the component to avoid re-rendering
 
@@ -78,24 +86,25 @@ const appStack = (
 
 
 
+
+
+
 export default function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-
-
   useEffect(() => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      setIsUserLoggedIn(true);
-      console.log("User is signed in");
-    } else {
-      // User is signed out
-      setIsUserLoggedIn(false);
-    }
-  });
-}, []);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        setIsUserLoggedIn(true);
+        console.log("User is signed in");
+      } else {
+        // User is signed out
+        setIsUserLoggedIn(false);
+      }
+    });
+  }, []);
 
   return (
     <NavigationContainer>

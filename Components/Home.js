@@ -23,12 +23,25 @@ import { writeToDB, deleteFromDB, deleteAllFromDB } from "../Firebase/firestoreH
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { auth } from "../Firebase/firebaseSetup";
 import { ref, uploadBytesResumable } from "firebase/storage";
+import * as Notifications from "expo-notifications";
+
 
 export default function Home( {navigation} ) {
   const [receivedData, setReceivedData] = useState("");
   const [visible, setVisible] = useState(false);
   const [goals, setGoals] = useState([]);
   const appName = "My app";
+
+  // update to receive data
+  useEffect(() => {
+    async function getPushToken(){
+      console.log("Home effect");
+      const pushToken = Notifications.getExpoPushTokenAsync({});
+      console.log(pushToken);
+    }
+    getPushToken();
+  }, []);
+
 
   // onSnapshot is a listener that listens to changes in the database
   // It takes a query as an argument and a callback function that will be called

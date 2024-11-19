@@ -1,5 +1,5 @@
 import { database } from './firebaseSetup';
-import { collection, addDoc, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore"; 
+import { collection, addDoc, deleteDoc, doc, getDocs, updateDoc, setDoc, getDoc } from "firebase/firestore"; 
 
 export async function writeToDB(data, collectionName) {
   try{
@@ -61,4 +61,23 @@ export async function getAllDocuments(collectionName) {
   }
 }
 
+export async function updateDB(docId, data, collectionName) {
+  try {
+    await setDoc(doc(database, collectionName, docId), data, { merge: true });
+    console.log("Document updated with ID: ", docId);
+  } catch (err) {
+    console.log("Update db", err);
+  }
+}
 
+export async function getOneDocument(docId, collectionName) {
+  try {
+    const docSnapshot = await getDoc(doc(database, collectionName, docId));
+    if(docSnapshot.exists()) {
+      return docSnapshot.data();
+    }
+  }
+  catch (err) {
+    console.log("Get one document", err);
+  }
+}
